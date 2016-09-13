@@ -80,6 +80,7 @@ class WeaverFrame(wx.Frame):
     def Init(self):
         self.InitMenuBar()
         self.InitToolBar()
+        self.InitPanel()
 
         self.SetSize((300, 200))
         self.SetTitle('Weaver(Alpha)')
@@ -124,6 +125,13 @@ class WeaverFrame(wx.Frame):
         
         self.SetSizer(vbox)
         
+    def InitPanel(self):
+        vbox = self.GetSizer()
+        self.panel = wx.Panel(self)
+        
+        vbox.Add(self.panel, 0, wx.EXPAND)
+        self.SetSizer(vbox)
+        
 
     def OnNew(self, e):
         dlg = ScaleSettingDialog(self)
@@ -145,13 +153,11 @@ class WeaverFrame(wx.Frame):
         col = self.column
         row = self.row
         
-        self.panel = wx.Panel(self)
-        
-        # gridSizer = wx.GridSizer(rows=row, cols=col, hgap=5, vgap=5)
-        # for i in range(row):
-            # for j in range(col):
-                # gridSizer.Add(wx.Button(self.panel, size=(20,20)), wx.EXPAND | wx.SHAPED, 0)
-        # self.panel.SetSizer(gridSizer)
+        gridSizer = wx.GridSizer(rows=row, cols=col, hgap=5, vgap=5)
+        for i in range(row):
+            for j in range(col):
+                gridSizer.Add(wx.Button(self.panel, size=(20,20)), wx.EXPAND | wx.SHAPED, 0)
+        self.panel.SetSizer(gridSizer)
 
 def main():
     
