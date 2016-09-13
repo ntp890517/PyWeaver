@@ -79,6 +79,7 @@ class WeaverFrame(wx.Frame):
         
     def Init(self):
         self.InitMenuBar()
+        self.InitToolBar()
 
         self.SetSize((300, 200))
         self.SetTitle('Weaver(Alpha)')
@@ -103,6 +104,26 @@ class WeaverFrame(wx.Frame):
         fitem = fileMenu.Append(wx.ID_EXIT, 'Quit', 'Quit application')
         self.Bind(wx.EVT_MENU, self.OnQuit, fitem)
         return fileMenu
+        
+    def InitToolBar(self):
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        tools = wx.ToolBar(self)
+        tools.AddLabelTool(wx.ID_ANY, 'line', wx.Bitmap('icon.png'))
+        tools.AddLabelTool(wx.ID_ANY, 'rectangle', wx.Bitmap('icon.png'))
+        tools.AddLabelTool(wx.ID_ANY, 'erase', wx.Bitmap('icon.png'))
+        tools.Realize()
+        
+        colors = wx.ToolBar(self)
+        colors.AddLabelTool(wx.ID_ANY, 'COLOR1', wx.Bitmap('icon.png'))
+        colors.AddLabelTool(wx.ID_ANY, 'COLOR2', wx.Bitmap('icon.png'))
+        colors.AddLabelTool(wx.ID_ANY, 'COLOR3', wx.Bitmap('icon.png'))
+        colors.Realize()
+        
+        vbox.Add(tools, 0, wx.EXPAND)
+        vbox.Add(colors, 0, wx.EXPAND)
+        
+        self.SetSizer(vbox)
+        
 
     def OnNew(self, e):
         dlg = ScaleSettingDialog(self)
@@ -125,28 +146,12 @@ class WeaverFrame(wx.Frame):
         row = self.row
         
         self.panel = wx.Panel(self)
-        vbox = wx.BoxSizer(wx.VERTICAL)
-        
-        toolBox = wx.BoxSizer(wx.HORIZONTAL)
-        for i in range(3):
-            btn = wx.Button(self, label='BTN' + str(i))
-            toolBox.Add(btn, flag=wx.LEFT)
-        
-        colorBox = wx.BoxSizer(wx.HORIZONTAL)
-        for i in range(3):
-            btn = wx.Button(self, label='BTN' + str(i))
-            colorBox.Add(btn, flag=wx.LEFT)
-        
-        vbox.Add(toolBox)
-        vbox.Add(colorBox)
         
         # gridSizer = wx.GridSizer(rows=row, cols=col, hgap=5, vgap=5)
         # for i in range(row):
             # for j in range(col):
                 # gridSizer.Add(wx.Button(self.panel, size=(20,20)), wx.EXPAND | wx.SHAPED, 0)
         # self.panel.SetSizer(gridSizer)
-        
-        self.SetSizer(vbox)
 
 def main():
     
