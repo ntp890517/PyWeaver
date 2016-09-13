@@ -46,15 +46,24 @@ class ScaleSettingDialog(wx.Dialog):
         closeButton.Bind(wx.EVT_BUTTON, self.OnClose)
         
     def OnClose(self, e):
-        self.column = self.colText.GetValue()
-        self.row = self.rowText.GetValue()
-        self.Destroy()
+        try:
+            self.column = int(self.colText.GetValue())
+            self.row = int(self.rowText.GetValue())
+            self.ValidateColumnAndRow()
+            self.Destroy()
+        except ValueError:
+            dlg = wx.MessageDialog(self, 'Scale should be a positive integer', 'illegal scale', wx.OK | wx.ICON_WARNING)
+            dlg.ShowModal()
+            dlg.Destroy()
         
     def GetColumn(self):
         return self.column
     def GetRow(self):
         return self.row
         
+    def ValidateColumnAndRow(self):
+        if self.column <= 0 or self.row <= 0:
+            raise ValueError()     
 
 class WeaverFrame(wx.Frame):
     
@@ -97,6 +106,7 @@ class WeaverFrame(wx.Frame):
         dlg.Destroy()
         self.column = dlg.GetColumn()
         self.row = dlg.GetRow()
+        print 'Scale: ' + str(self.column) + ', ' + str(self.row)
     def OnQuit(self, e):
         self.Close()
     def OnSave(self, e):
