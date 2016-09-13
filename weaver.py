@@ -73,6 +73,10 @@ class WeaverFrame(wx.Frame):
         self.row = 0
         self.Init()
         
+        # for quick test
+        self.column = self.row = 5
+        self.InitDesign()
+        
     def Init(self):
         self.InitMenuBar()
 
@@ -115,6 +119,34 @@ class WeaverFrame(wx.Frame):
         pass
     def OnPrint(self, e):
         pass
+        
+    def InitDesign(self):
+        col = self.column
+        row = self.row
+        
+        self.panel = wx.Panel(self)
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        
+        toolBox = wx.BoxSizer(wx.HORIZONTAL)
+        for i in range(3):
+            btn = wx.Button(self, label='BTN' + str(i))
+            toolBox.Add(btn, flag=wx.LEFT)
+        
+        colorBox = wx.BoxSizer(wx.HORIZONTAL)
+        for i in range(3):
+            btn = wx.Button(self, label='BTN' + str(i))
+            colorBox.Add(btn, flag=wx.LEFT)
+        
+        vbox.Add(toolBox)
+        vbox.Add(colorBox)
+        
+        # gridSizer = wx.GridSizer(rows=row, cols=col, hgap=5, vgap=5)
+        # for i in range(row):
+            # for j in range(col):
+                # gridSizer.Add(wx.Button(self.panel, size=(20,20)), wx.EXPAND | wx.SHAPED, 0)
+        # self.panel.SetSizer(gridSizer)
+        
+        self.SetSizer(vbox)
 
 def main():
     
