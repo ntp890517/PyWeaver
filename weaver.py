@@ -66,6 +66,7 @@ class ScaleSettingDialog(wx.Dialog):
             raise ValueError()     
 
 class WeaverFrame(wx.Frame):
+    BTN_SIZE = wx.Size(25, 25)
     
     def __init__(self, *args, **kwargs):
         super(WeaverFrame, self).__init__(*args, **kwargs) 
@@ -148,36 +149,38 @@ class WeaverFrame(wx.Frame):
         pass
         
     def InitDesign(self):
-    # button size (25, 25)
-        canvasCol = self.column + 1
-        canvasRow = self.row + 1
-        colPixel = canvasCol * 30
-        rowPixel = canvasRow * 30
-        self.canvas = wx.Panel(self.panel, size=(rowPixel, colPixel))
+        def InitSpacer():
+            spacer = wx.StaticText(self.canvas, size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+            canvasSizer = self.canvas.GetSizer()
+            canvasSizer.Add(spacer, pos = (0, 0), span = (1, 1), flag = wx.EXPAND)
+        def InitColumnIndex():
+            canvasSizer = self.canvas.GetSizer()
+            for i in range(1, self.column+1):
+                text = wx.StaticText(self.canvas, label = str(i), size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+                canvasSizer.Add(text, pos = (0, i), span = (1, 1), flag = wx.EXPAND)
+        def InitRowIndex():
+            canvasSizer = self.canvas.GetSizer()
+            for i in range(1, self.row+1):
+                text = wx.StaticText(self.canvas, label = str(i), size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+                canvasSizer.Add(text, pos = (i, 0), span = (1, 1), flag = wx.EXPAND)
+        def InitButtonArray():
+            canvasSizer = self.canvas.GetSizer()
+            for i in range(1, self.row+1):
+                for j in range(1, self.column+1):
+                    btn = wx.Button(self.canvas, size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+                    canvasSizer.Add(btn, pos = (i, j), span = (1, 1), flag = wx.EXPAND)
+
+        self.canvas = wx.Panel(self.panel)
+        self.canvas.SetSizer(wx.GridBagSizer(0, 0))
         self.canvas.SetBackgroundColour(wx.RED)
         
-        canvasSizer = wx.GridBagSizer(5, 5)
+        InitSpacer()
+        InitColumnIndex()
+        InitRowIndex()
+        InitButtonArray()
         
-        spacer = wx.StaticText(self.canvas, size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
-        canvasSizer.Add(spacer, pos = (0, 0), span = (1, 1), flag = wx.EXPAND)
-        
-        for i in range(1, self.column+1):
-            text = wx.StaticText(self.canvas, label = str(i), size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
-            canvasSizer.Add(text, pos = (0, i), span = (1, 1), flag = wx.EXPAND)
-            
-        for i in range(1, self.row+1):
-            text = wx.StaticText(self.canvas, label = str(i), size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
-            canvasSizer.Add(text, pos = (i, 0), span = (1, 1), flag = wx.EXPAND)
-            
-        for i in range(1, self.row+1):
-            for j in range(1, self.column+1):
-                btn = wx.Button(self.canvas, size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
-                canvasSizer.Add(btn, pos = (i, j), span = (1, 1), flag = wx.EXPAND)
-
-        self.canvas.SetSizerAndFit(canvasSizer)
-
-        self.canvas.Centre()
-        self.canvas.Show(True)
+        self.canvas.Fit()
+        self.panel.Fit(self.panel.GetSizer()) # Type Error but right layout??
 
 def main():
     
