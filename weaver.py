@@ -82,7 +82,7 @@ class WeaverFrame(wx.Frame):
         self.InitToolBar()
         self.InitPanel()
 
-        self.SetSize((300, 200))
+        self.SetSize((600, 400))
         self.SetTitle('Weaver(Alpha)')
         self.Centre()
         self.Show(True)
@@ -107,7 +107,7 @@ class WeaverFrame(wx.Frame):
         return fileMenu
         
     def InitToolBar(self):
-        vbox = wx.BoxSizer(wx.VERTICAL)
+        frameSizer = wx.BoxSizer(wx.VERTICAL)
         tools = wx.ToolBar(self)
         tools.AddLabelTool(wx.ID_ANY, 'line', wx.Bitmap('icon.png'))
         tools.AddLabelTool(wx.ID_ANY, 'rectangle', wx.Bitmap('icon.png'))
@@ -120,18 +120,18 @@ class WeaverFrame(wx.Frame):
         colors.AddLabelTool(wx.ID_ANY, 'COLOR3', wx.Bitmap('icon.png'))
         colors.Realize()
         
-        vbox.Add(tools, 0, wx.EXPAND)
-        vbox.Add(colors, 0, wx.EXPAND)
+        frameSizer.Add(tools, 0, wx.EXPAND)
+        frameSizer.Add(colors, 0, wx.EXPAND)
         
-        self.SetSizer(vbox)
+        self.SetSizer(frameSizer)
         
     def InitPanel(self):
-        vbox = self.GetSizer()
+        frameSizer = self.GetSizer()
+        
         self.panel = wx.Panel(self)
+        self.panel.SetBackgroundColour('#C0C0C0') #light grey
         
-        vbox.Add(self.panel, 0, wx.EXPAND)
-        self.SetSizer(vbox)
-        
+        frameSizer.Add(self.panel, 1, wx.EXPAND)
 
     def OnNew(self, e):
         dlg = ScaleSettingDialog(self)
@@ -152,12 +152,6 @@ class WeaverFrame(wx.Frame):
     def InitDesign(self):
         col = self.column
         row = self.row
-        
-        gridSizer = wx.GridSizer(rows=row, cols=col, hgap=5, vgap=5)
-        for i in range(row):
-            for j in range(col):
-                gridSizer.Add(wx.Button(self.panel, size=(20,20)), wx.EXPAND | wx.SHAPED, 0)
-        self.panel.SetSizer(gridSizer)
 
 def main():
     
