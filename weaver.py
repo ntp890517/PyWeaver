@@ -73,10 +73,6 @@ class WeaverFrame(wx.Frame):
         self.row = 0
         self.Init()
         
-        # for quick test
-        self.column = self.row = 5
-        self.InitDesign()
-        
     def Init(self):
         self.InitMenuBar()
         self.InitToolBar()
@@ -127,9 +123,11 @@ class WeaverFrame(wx.Frame):
         
     def InitPanel(self):
         frameSizer = self.GetSizer()
+        panelSizer = wx.BoxSizer(wx.VERTICAL)
         
         self.panel = wx.Panel(self)
         self.panel.SetBackgroundColour('#C0C0C0') #light grey
+        self.panel.SetSizer(panelSizer)
         
         frameSizer.Add(self.panel, 1, wx.EXPAND)
 
@@ -139,7 +137,7 @@ class WeaverFrame(wx.Frame):
         dlg.Destroy()
         self.column = dlg.GetColumn()
         self.row = dlg.GetRow()
-        print 'Scale: ' + str(self.column) + ', ' + str(self.row)
+        self.InitDesign()
     def OnQuit(self, e):
         self.Close()
     def OnSave(self, e):
@@ -150,8 +148,36 @@ class WeaverFrame(wx.Frame):
         pass
         
     def InitDesign(self):
-        col = self.column
-        row = self.row
+    # button size (25, 25)
+        canvasCol = self.column + 1
+        canvasRow = self.row + 1
+        colPixel = canvasCol * 30
+        rowPixel = canvasRow * 30
+        self.canvas = wx.Panel(self.panel, size=(rowPixel, colPixel))
+        self.canvas.SetBackgroundColour(wx.RED)
+        
+        canvasSizer = wx.GridBagSizer(5, 5)
+        
+        spacer = wx.StaticText(self.canvas, size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+        canvasSizer.Add(spacer, pos = (0, 0), span = (1, 1), flag = wx.EXPAND)
+        
+        for i in range(1, self.column+1):
+            text = wx.StaticText(self.canvas, label = str(i), size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+            canvasSizer.Add(text, pos = (0, i), span = (1, 1), flag = wx.EXPAND)
+            
+        for i in range(1, self.row+1):
+            text = wx.StaticText(self.canvas, label = str(i), size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+            canvasSizer.Add(text, pos = (i, 0), span = (1, 1), flag = wx.EXPAND)
+            
+        for i in range(1, self.row+1):
+            for j in range(1, self.column+1):
+                btn = wx.Button(self.canvas, size = (25, 25), style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+                canvasSizer.Add(btn, pos = (i, j), span = (1, 1), flag = wx.EXPAND)
+
+        self.canvas.SetSizerAndFit(canvasSizer)
+
+        self.canvas.Centre()
+        self.canvas.Show(True)
 
 def main():
     
