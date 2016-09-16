@@ -89,15 +89,25 @@ class WeaverFrame(wx.Frame):
     def InitToolBar(self):
         frameSizer = wx.BoxSizer(wx.VERTICAL)
         tools = wx.ToolBar(self)
-        tools.AddLabelTool(wx.ID_ANY, 'line', wx.Bitmap('icon.png'))
-        tools.AddLabelTool(wx.ID_ANY, 'rectangle', wx.Bitmap('icon.png'))
-        tools.AddLabelTool(wx.ID_ANY, 'erase', wx.Bitmap('icon.png'))
+        toolUndo = tools.AddLabelTool(wx.ID_UNDO, label = 'undo', bitmap = wx.Bitmap('undo.png'))
+        toolRedo = tools.AddLabelTool(wx.ID_REDO, label = 'redo', bitmap = wx.Bitmap('redo.png'))
+        tools.AddSeparator()
+        toolEdit = tools.AddLabelTool(wx.ID_ANY, label = 'edit', bitmap = wx.Bitmap('edit.png'))
+        toolRectFill = tools.AddLabelTool(wx.ID_ANY, label = 'rectFill', bitmap = wx.Bitmap('rectFill.png'))
+        toolErase = tools.AddLabelTool(wx.ID_ANY, label = 'erase', bitmap = wx.Bitmap('erase.png'))
         tools.Realize()
         
+        self.Bind(wx.EVT_TOOL, self.OnUndo, toolUndo)
+        self.Bind(wx.EVT_TOOL, self.OnRedo, toolRedo)
+        self.Bind(wx.EVT_TOOL, self.OnEdit, toolEdit)
+        self.Bind(wx.EVT_TOOL, self.OnRectFill, toolRectFill)
+        self.Bind(wx.EVT_TOOL, self.OnErase, toolErase)
+        
+
         colors = wx.ToolBar(self)
-        colors.AddLabelTool(wx.ID_ANY, 'COLOR1', wx.Bitmap('icon.png'))
-        colors.AddLabelTool(wx.ID_ANY, 'COLOR2', wx.Bitmap('icon.png'))
-        colors.AddLabelTool(wx.ID_ANY, 'COLOR3', wx.Bitmap('icon.png'))
+        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR1', bitmap = wx.Bitmap('icon.png'))
+        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR2', bitmap = wx.Bitmap('icon.png'))
+        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR3', bitmap = wx.Bitmap('icon.png'))
         colors.Realize()
         
         frameSizer.Add(tools, 0, wx.EXPAND)
@@ -129,6 +139,16 @@ class WeaverFrame(wx.Frame):
     def OnLoad(self, e):
         pass
     def OnPrint(self, e):
+        pass
+    def OnUndo(self, e):
+        pass
+    def OnRedo(self, e):
+        pass
+    def OnEdit(self, e):
+        pass
+    def OnRectFill(self, e):
+        pass
+    def OnErase(self, e):
         pass
         
     def InitDesign(self):
