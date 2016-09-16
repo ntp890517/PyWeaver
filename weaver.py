@@ -103,11 +103,21 @@ class WeaverFrame(wx.Frame):
         self.Bind(wx.EVT_TOOL, self.OnRectFill, toolRectFill)
         self.Bind(wx.EVT_TOOL, self.OnErase, toolErase)
         
+        # basicColors = [wx.Colour('#e74c3c'),
+                       # wx.Colour('#e67e22'),
+                       # wx.Colour('#f1c40f'),
+                       # wx.Colour('#2ecc71'),
+                       # wx.Colour('#1abc9c'),
+                       # wx.Colour('#3498db'),
+                       # wx.Colour('#9b59b6'),
+                       # wx.Colour('#ecf0f1'),
+                       # wx.Colour('#95a5a6'),
+                       # wx.Colour('#34495e')]
+        basicColors = ['e74c3c', 'e67e22', 'f1c40f', '2ecc71', '1abc9c', '3498db', '9b59b6', 'ecf0f1', '95a5a6', '34495e']
 
         colors = wx.ToolBar(self)
-        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR1', bitmap = wx.Bitmap('icon.png'))
-        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR2', bitmap = wx.Bitmap('icon.png'))
-        colors.AddLabelTool(wx.ID_ANY, label = 'COLOR3', bitmap = wx.Bitmap('icon.png'))
+        for c in basicColors:
+            tColor = colors.AddLabelTool(wx.ID_ANY, label = 'color', bitmap = wx.Bitmap('color_' + c + '.png'))
         colors.Realize()
         
         frameSizer.Add(tools, 0, wx.EXPAND)
