@@ -166,6 +166,8 @@ class WeaverFrame(wx.Frame):
         pass
     def OnSelectColor(self, e, color):
         self.color = color
+    def OnAssignColor(self, e, btn):
+        btn.SetBackgroundColour('#' + self.color)
         
     def InitDesign(self):
         def InitSpacer():
@@ -186,8 +188,9 @@ class WeaverFrame(wx.Frame):
             canvasSizer = self.canvas.GetSizer()
             for i in range(1, self.row+1):
                 for j in range(1, self.column+1):
-                    btn = wx.Button(self.canvas, size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE)
+                    btn = wx.Button(self.canvas, size = WeaverFrame.BTN_SIZE, style=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE|wx.NO_BORDER)
                     canvasSizer.Add(btn, pos = (i, j), span = (1, 1), flag = wx.EXPAND)
+                    self.Bind(wx.EVT_BUTTON, lambda evt, button=btn: self.OnAssignColor(evt, button), btn)
 
         self.canvas = wx.Panel(self.panel)
         self.canvas.SetSizer(wx.GridBagSizer(0, 0))
