@@ -50,9 +50,13 @@ class ScaleSettingDialog(wx.Dialog):
 
 class WeaverFrame(wx.Frame):
     BTN_SIZE = wx.Size(25, 25)
+    BASIC_COLORS = ['e74c3c', 'e67e22', 'f1c40f', '2ecc71', '1abc9c', '3498db', '9b59b6', 'ecf0f1', '95a5a6', '34495e']
+    DEFAULT_COLOR = BASIC_COLORS[0]
     
     def __init__(self, *args, **kwargs):
-        super(WeaverFrame, self).__init__(*args, **kwargs) 
+        super(WeaverFrame, self).__init__(*args, **kwargs)
+        self.color = self.DEFAULT_COLOR
+        
         self.column = 0
         self.row = 0
         self.Init()
@@ -113,11 +117,11 @@ class WeaverFrame(wx.Frame):
                        # wx.Colour('#ecf0f1'),
                        # wx.Colour('#95a5a6'),
                        # wx.Colour('#34495e')]
-        basicColors = ['e74c3c', 'e67e22', 'f1c40f', '2ecc71', '1abc9c', '3498db', '9b59b6', 'ecf0f1', '95a5a6', '34495e']
 
         colors = wx.ToolBar(self)
-        for c in basicColors:
-            tColor = colors.AddLabelTool(wx.ID_ANY, label = 'color', bitmap = wx.Bitmap('color_' + c + '.png'))
+        for c in self.BASIC_COLORS:
+            tColor = colors.AddRadioLabelTool(wx.ID_ANY, label = 'color', bitmap = wx.Bitmap('color_' + c + '.png'))
+            self.Bind(wx.EVT_TOOL, lambda evt, color=c: self.OnSelectColor(evt, color), tColor)
         colors.Realize()
         
         frameSizer.Add(tools, 0, wx.EXPAND)
@@ -160,6 +164,8 @@ class WeaverFrame(wx.Frame):
         pass
     def OnErase(self, e):
         pass
+    def OnSelectColor(self, e, color):
+        self.color = color
         
     def InitDesign(self):
         def InitSpacer():
